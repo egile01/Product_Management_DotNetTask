@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ProductManagementDotNetTask.Models.tblproduct>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Style for action buttons */
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 2px;
+        }
+
+        .btn-edit {
+            background-color: #28a745;
+            color: white;
+        }
+
+            .btn-edit:hover {
+                background-color: #218838;
+            }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+            .btn-delete:hover {
+                background-color: #c82333;
+            }
+    </style>
+</head>
+<body>
+
+    <h2>Product List</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Images</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var data in Model)
+            {
+                <tr>
+                    <td>@data.Id</td>
+                    <td>@data.Name</td>
+                    <td>@data.Description</td>
+                    <td>$@data.Price</td>
+                    <td>@data.Category</td>
+                    <td>@data.Stock</td>
+                    <td>
+                        @{
+                            string[] photos = System.Text.RegularExpressions.Regex.Split(data.Images, ",");
+                            foreach (var photo in photos)
+                            {
+                                <img src="~/Photos/@data.Name/@photo" alt="Product Image" width="100" height="150" />
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = data.Id }, new { @class = "btn btn-edit" })
+                        @Html.ActionLink("Delete", "Delete", new { id = data.Id }, new { @class = "btn btn-delete", onclick = "return confirm('Are you sure you want to delete this product?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body> 
+</html>

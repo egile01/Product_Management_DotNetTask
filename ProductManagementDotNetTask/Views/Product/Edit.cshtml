@@ -1,0 +1,80 @@
+﻿@model ProductManagementDotNetTask.Models.tblproduct
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow-lg p-4 w-50">
+            <h3 class="text-center mb-4">Add Product</h3>
+
+            <form action="Create" method="post" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label">Product ID</label>
+                    @Html.TextBoxFor(e => e.Id, new { @class = "form-control" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    @Html.TextAreaFor(e => e.Description, new { @class = "form-control", rows = "3" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    @Html.TextBoxFor(e => e.Price, new
+                    {
+                        @class = "form-control",
+                        type = "number",
+                        min = "0"
+                   ,
+                        step = "10"
+                    })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+
+                    @if (ViewBag.Categories != null)
+                    {
+                        @Html.DropDownListFor(e => e.Category, ViewBag.Categories as SelectList, "-- Select Category --", new { @class = "form-select" })
+                    }
+                    else
+                    {
+                        <p class="text-danger">No categories available.</p>
+                    }
+                </div>      
+
+                <div class="mb-3">
+                    <label class="form-label">Stock</label>
+                    @Html.TextBoxFor(e => e.Stock, new { @class = "form-control", type = "number", min = "0" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Images</label>
+                    <td><input type="file" name="photo" /></td>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary"></button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
