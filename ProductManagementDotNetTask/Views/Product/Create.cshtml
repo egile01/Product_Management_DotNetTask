@@ -1,4 +1,4 @@
-﻿@model  ProductManagementDotNetTask.Models.tblproduct
+﻿@model ProductManagementDotNetTask.Models.tblproduct
 @{
     Layout = null;
 }
@@ -36,6 +36,10 @@
                 background-color: #5a6268;
                 color: white;
             }
+
+        .text-danger {
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
@@ -44,51 +48,62 @@
         <div class="card shadow-lg p-4 w-50">
             <h3 class="text-center mb-4">Add Product</h3>
 
-            <form action="Create" method="post" enctype="multipart/form-data">
+            @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
 
                 <div class="mb-3">
                     <label class="form-label">Product ID</label>
                     @Html.TextBoxFor(e => e.Id, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Id, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Product Name</label>
                     @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Name, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     @Html.TextAreaFor(e => e.Description, new { @class = "form-control", rows = "3" })
+                    @Html.ValidationMessageFor(e => e.Description, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Price</label>
                     @Html.TextBoxFor(e => e.Price, new { @class = "form-control", type = "number", min = "0", step = "10" })
+                    @Html.ValidationMessageFor(e => e.Price, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Category</label>
                     @Html.DropDownListFor(e => e.Category, new SelectList(ViewBag.Categories), "-- Select Category --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(e => e.Category, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Stock</label>
                     @Html.TextBoxFor(e => e.Stock, new { @class = "form-control", type = "number", min = "0" })
+                    @Html.ValidationMessageFor(e => e.Stock, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Images</label>
-                    <input type="file" name="photo" class="form-control"  multiple/>
+                    <input type="file" name="photo" class="form-control" multiple />
                 </div>
 
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Add Product</button>
                     @Html.ActionLink("List of Products", "Index", null, new { @class = "btn btn-list mt-3" })
                 </div>
-
-            </form>
+            }
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>
